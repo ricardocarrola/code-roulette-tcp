@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+    <link rel="stylesheet" href="style.css">
+ 
+ 
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        
+        crossorigin="anonymous"></script>
+   
+    <title>Tesla Club Portugal</title>
+</head>
+
+<body>
+    
+    <div class="center half card">        
+        <div class="center"><i class="fab fa-facebook-square fa-10x"></i></div>
+        <h1><a href='https://www.facebook.com/groups/273017493092048' target='blank'>Tesla Club Portugal </a></h1>
+        
+        <h2 style='display:none;' id="quem"></h2>
+        <h3 style='display:none;'><a id='link' href="" class="href" target='blank'></a></h3>
+        
+        <h3><a id='link2' href="" class="href" target='blank'>Clique para comprar com o código do  </a></h3>
+        <input type='button' name="" class='button' value='Gerar outro Código' onclick="window.location.reload();">
+        <div class='disclaimer'>Disclaimer : Ao usar este link pode obter 1500 Kms de carregamentos gratuitos e ainda habilitar-se a ganhar um model Y. Este código foi gerado aleatóriamente utilizando a lista de códigos oficial do Tesla Clube Portugal que pode ser consultada <a href='https://docs.google.com/spreadsheets/d/13qqHrpfjmz7bje3SAm5-jFMIG9NOowC7zr-D6ssGXDQ/edit?fbclid=IwAR2YTnnM-2ZY_-6jwgq3_Sk2RWe9emmiqhvtYn68K7RTvpV9BMZOghmaEZU#gid=1777861097'>aqui.</a></div>
+        
+    </div>
+    <script>
+        
+        var link_to_csv = "https://docs.google.com/spreadsheets/d/13qqHrpfjmz7bje3SAm5-jFMIG9NOowC7zr-D6ssGXDQ/gviz/tq?tqx=out:csv&sheet=Respostas%20do%20Formulário";
+        var lines = [];
+
+        jQuery(document).ready(function () {
+            jQuery.ajax({
+                type: "GET",
+                url: link_to_csv,
+                dataType: "text",
+                success: function (data) { 
+                    processData(data); 
+                    chooseOne();
+                }
+            });
+        });
+        function chooseOne(){
+            var num = Math.floor(Math.random() * lines.length);
+            var code = lines[num][1];
+            var name = lines[num][2];
+            var facebook = lines[num][3];
+            //document.getElementById("quem").innerHTML = name;
+            document.getElementById("link").href = facebook;
+            document.getElementById("link2").href = code;
+            //document.getElementById("link").innerHTML = name;
+            document.getElementById("link2").innerHTML += name;
+            
+        }
+        function processData(allText) {
+            var allTextLines = allText.split(/\r\n|\n/);
+            var headers = allTextLines[0].split(',');
+          
+
+            for (var i = 1; i < allTextLines.length; i++) {
+                var data = allTextLines[i].split(',');
+                if (data.length == headers.length) {
+
+                    var tarr = [];
+                    for (var j = 0; j < headers.length; j++) {
+                        tarr.push(data[j].replace('"','').replace('"',''));
+                    }
+                    lines.push(tarr);
+                }
+            }
+        }
+    </script>
+   
+</body>
+
+</html>
